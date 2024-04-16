@@ -3,13 +3,7 @@
 ###
 
 <div align="center">
-  <img height="59" src="https://i.ibb.co/6RfTYmx/cr-pause.png"  />
-</div>
-
-###
-
-<div align="center">
-  <img height="200" src="https://i.ibb.co/g7R5yfB/cr-pause1.png"  />
+  <img height="200" src="https://i.ibb.co/6RfTYmx/cr-pause.png"  />
 </div>
 
 ###
