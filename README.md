@@ -3,7 +3,7 @@
 ###
 
 <div align="center">
-  <img height="600" src="https://i.ibb.co/pXQ0qB2/cr-pause.png"  />
+  <img height="300" src="https://i.ibb.co/pXQ0qB2/cr-pause.png"  />
 </div>
 
 ###
@@ -16,6 +16,6 @@
 
 ###
 
-<p align="center">drag n drop into resources folder<br>ensure cr-pause in server.cfg<br>edit config.cfg to change colors/title/<br>replace logo in folder html (96x96)<br>restart server<br><br>works with qb-core or esx</p>
+<p align="center">drag n drop into resources folder<br>ensure cr-pause in server.cfg<br>edit config.cfg to change color/title/waypoint<br>replace logo in folder html (96x96)<br>restart server<br><br>works with qb-core or esx</p>
 
 ###
