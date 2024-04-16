@@ -2,7 +2,7 @@ Config = {}
 
 
 Config.Header = {
-    TITLE = "CRP 2.0"  -- Customize the main title
+    TITLE = "cr-pause"  -- Customize the main title
 }
 
 -- Configuration for colors
