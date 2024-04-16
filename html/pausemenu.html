@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body, html {
+            height: 100%;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: transparent;
+        }
+
+        #logo {
+            position: absolute;
+            top: 90px;  /* Adjust top margin to align where you want */
+            left: 215px;  /* Adjust left margin to align where you want */
+            width: 96px;  /* Width of the logo */
+            height: 96px;  /* Height of the logo */
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out; /* Smooth transition for opacity */
+        }
+    </style>
+</head>
+<body>
+    <img id="logo" src="logo.png">
+    <script type="text/javascript">
+        window.addEventListener('message', function(event) {
+            var item = event.data;
+            var logo = document.getElementById('logo');
+            if (item.display === true) {
+                logo.style.transition = 'opacity 0.5s ease-in-out';  // Slower fade in
+                logo.style.opacity = 1;  // Fade in
+            } else {
+                logo.style.transition = 'opacity 0.1s ease-in-out';  // Faster fade out
+                logo.style.opacity = 0;  // Fade out
+            }
+        });
+    </script>
+</body>
+</html>

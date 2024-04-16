@@ -9,3 +9,10 @@ client_scripts {
     'config.lua',
     'client.lua'
 }
+
+files {
+    'html/pausemenu.html',
+    'html/logo.png'         
+}
+
+ui_page 'html/pausemenu.html'  

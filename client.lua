@@ -23,12 +23,19 @@ local nightvisionEnabled = false
 function fadeNightvisionIn(duration)
     local step = 1.0 / duration
     local opacity = 0.0
+    SendNUIMessage({ display = true })  -- Show the logo synchronously
+    SetNightvision(true)
     while opacity <= 1.0 do
-        SetNightvision(true)
         SetTimecycleModifierStrength(opacity)
         opacity = opacity + step
         Wait(100)  -- Wait 100 milliseconds before the next increment
     end
+end
+
+-- Function to turn off nightvision
+function turnOffNightvision()
+    SetNightvision(false)  -- Turn off nightvision
+    SendNUIMessage({ display = false })  -- Hide the logo synchronously
 end
 
 -- Main script thread
@@ -46,9 +53,8 @@ CreateThread(function()
             fadeNightvisionIn(10)  -- Fade in over approximately 1 second
             nightvisionEnabled = true
         elseif not IsPauseMenuActive() and nightvisionEnabled then
-            SetNightvision(false)  -- Turn off nightvision immediately when pause menu is inactive
+            turnOffNightvision()  -- Function to turn off nightvision and hide the logo
             nightvisionEnabled = false
         end
     end
 end)
-
