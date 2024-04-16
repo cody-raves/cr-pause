@@ -19,23 +19,27 @@ end
 
 local nightvisionEnabled = false
 
--- Function to fade nightvision in
+-- Function to fade nightvision in and show/hide the logo
 function fadeNightvisionIn(duration)
     local step = 1.0 / duration
     local opacity = 0.0
-    SendNUIMessage({ display = true })  -- Show the logo synchronously
     SetNightvision(true)
     while opacity <= 1.0 do
         SetTimecycleModifierStrength(opacity)
         opacity = opacity + step
         Wait(100)  -- Wait 100 milliseconds before the next increment
     end
+    if Config.DisplayLogo then  -- Check config before showing the logo
+        SendNUIMessage({ display = true })  -- Show the logo
+    end
 end
 
--- Function to turn off nightvision
+-- Function to turn off nightvision and hide the logo
 function turnOffNightvision()
     SetNightvision(false)  -- Turn off nightvision
-    SendNUIMessage({ display = false })  -- Hide the logo synchronously
+    if Config.DisplayLogo then  -- Check config before hiding the logo
+        SendNUIMessage({ display = false })  -- Hide the logo
+    end
 end
 
 -- Main script thread
