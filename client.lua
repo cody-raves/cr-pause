@@ -27,7 +27,7 @@ function fadeNightvisionIn(duration)
     while opacity <= 1.0 do
         SetTimecycleModifierStrength(opacity)
         opacity = opacity + step
-        Wait(100)  -- Wait 100 milliseconds before the next increment
+        Wait(001)  -- fixed logo loading to slow
     end
     if Config.DisplayLogo then  -- Check config before showing the logo
         SendNUIMessage({ display = true })  -- Show the logo
