@@ -16,6 +16,6 @@
 
 ###
 
-<p align="center">drag n drop into resources folder<br>ensure cr-pause in server.cfg<br>edit config.cfg to change color/title/waypoint<br>replace logo in folder html or turn off in config (server logo size 96x96)<br>restart server<br><br>works with qb-core or esx</p>
+<p align="center">drag n drop into resources folder<br>ensure cr-pause in server.cfg<br>edit config.cfg to change colors/title/filter<br>replace logo in folder html (96x96)<br>restart server<br><br>works with qb-core or esx</p>
 
 ###
