@@ -18,5 +18,5 @@ Config.RGBA = {
 }
 
 -- Configuration for using a custom time cycle modifier
-Config.UseCustomFilter = true -- Set to true to use a custom filter, false to use default nightvision
+Config.UseCustomFilter = false -- Set to true to use a custom filter, false to use default nightvision
 Config.CustomTimeCycleModifier = "damage" -- list of modifiers here https://wiki.rage.mp/index.php?title=Timecycle_Modifiers
