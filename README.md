@@ -16,12 +16,6 @@
 
 ###
 
-<div align="center">
-  <img height="200" src="https://i.ibb.co/5cfYD59/cr-pausecustomfilter.png"  />
-</div>
-
-###
-
 <h6 align="center">A fivem server resource that applies a native gta5 filter with custom title and custom colors, custom waypoint color and server logo.</h6>
 
 ###
