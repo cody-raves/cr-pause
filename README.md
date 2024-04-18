@@ -7,7 +7,7 @@
 ###
 
 <div align="center">
-  <img height="300" src="https://i.ibb.co/pXQ0qB2/cr-pause.png"  />
+  <img height="200" src="https://i.ibb.co/pXQ0qB2/cr-pause.png"  />
 </div>
 
 ###
@@ -17,7 +17,7 @@
 ###
 
 <div align="center">
-  <img height="300" src="https://i.ibb.co/5cfYD59/cr-pausecustomfilter.png"  />
+  <img height="200" src="https://i.ibb.co/5cfYD59/cr-pausecustomfilter.png"  />
 </div>
 
 ###
