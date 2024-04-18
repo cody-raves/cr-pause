@@ -12,10 +12,6 @@
 
 ###
 
-<p align="center">example custom filter</p>
-
-###
-
 <h6 align="center">A fivem server resource that applies a native gta5 filter with custom title and custom colors, custom waypoint color and server logo.</h6>
 
 ###
