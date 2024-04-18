@@ -7,12 +7,22 @@
 ###
 
 <div align="center">
-  <img height="200" src="https://i.ibb.co/pXQ0qB2/cr-pause.png"  />
+  <img height="200" src="https://i.ibb.co/vcR8v3X/cr-pause1-2.png"  />
 </div>
 
 ###
 
-<h6 align="center">A fivem server resource that applies a native gta5 filter with custom title and custom colors, custom waypoint color and server logo.</h6>
+<p align="center">example custom filter</p>
+
+###
+
+<div align="center">
+  <img height="200" src="https://i.ibb.co/qD88rQv/cr-pause1-2-customfilter.png"  />
+</div>
+
+###
+
+<h6 align="center">A fivem server resource that applies a customizable filter with custom title and custom colors, custom waypoint color and server logo and displays in game character info.</h6>
 
 ###
 
@@ -20,6 +30,6 @@
 
 ###
 
-<p align="center">drag n drop into resources folder<br>ensure cr-pause in server.cfg<br>edit config.cfg to change colors/title/filter<br>replace logo in folder html (96x96)<br>restart server<br><br>works with qb-core or esx</p>
+<p align="center">drag n drop into resources folder<br>ensure cr-pause in server.cfg<br>edit config.cfg to change colors/title/filter<br>edit config to specify framework (for grabbing character info)<br>replace logo in folder html (96x96)<br>restart server<br><br>works with qb-core or esx</p>
 
 ###

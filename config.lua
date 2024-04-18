@@ -1,8 +1,13 @@
+-- Configuration settings
 Config = {}
+
+Config.Framework = "QBCore"  -- Options: "QBCore", "ESX"
 
 Config.Header = {
     TITLE = "cr-pause"  -- Customize the main title
 }
+
+Config.CharacterInfoColor = {255, 255, 0} -- Customize the display text of character info
 
 -- Configuration for logo display
 Config.DisplayLogo = true  -- Set to false to disable the logo, true to enable it
@@ -15,5 +20,5 @@ Config.RGBA = {
 }
 
 -- Configuration for using a custom time cycle modifier
-Config.UseCustomFilter = false  -- Set to true to use a custom filter, false to use default nightvision
-Config.CustomTimeCycleModifier = "damage"  -- list of modifiers here https://wiki.rage.mp/index.php?title=Timecycle_Modifiers
+Config.UseCustomFilter = true -- Set to true to use a custom filter, false to use default nightvision
+Config.CustomTimeCycleModifier = "damage" -- list of modifiers here https://wiki.rage.mp/index.php?title=Timecycle_Modifiers

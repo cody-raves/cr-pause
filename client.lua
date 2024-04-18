@@ -1,3 +1,6 @@
+-- Make sure to load the configuration file properly
+-- Assuming Config is globally accessible after loading config.lua
+
 -- Configuration for text replacement in the pause menu
 function ApplyTextReplacements()
     local replacer = {
@@ -25,19 +28,21 @@ function ApplyFilter(duration)
     local opacity = 0.0
     if Config.UseCustomFilter then
         SetTimecycleModifier(Config.CustomTimeCycleModifier)
-        while opacity <= 1.0 do
-            SetTimecycleModifierStrength(opacity)
-            opacity = opacity + step
-            Wait(1)
-        end
     else
         SetNightvision(true)
-        while opacity <= 1.0 do
-            SetTimecycleModifierStrength(opacity)
-            opacity = opacity + step
-            Wait(1)
-        end
     end
+
+    -- Apply HUD color replacements
+    ReplaceHudColourWithRgba(116, Config.RGBA.LINE.RED, Config.RGBA.LINE.GREEN, Config.RGBA.LINE.BLUE, Config.RGBA.LINE.ALPHA)
+    ReplaceHudColourWithRgba(117, Config.RGBA.STYLE.RED, Config.RGBA.STYLE.GREEN, Config.RGBA.STYLE.BLUE, Config.RGBA.STYLE.ALPHA)
+    ReplaceHudColourWithRgba(142, Config.RGBA.WAYPOINT.RED, Config.RGBA.WAYPOINT.GREEN, Config.RGBA.WAYPOINT.BLUE, Config.RGBA.WAYPOINT.ALPHA)
+    
+    while opacity <= 1.0 do
+        SetTimecycleModifierStrength(opacity)
+        opacity = opacity + step
+        Wait(1)
+    end
+
     if Config.DisplayLogo then
         SendNUIMessage({ display = true })
     end
@@ -55,6 +60,28 @@ function RemoveFilter()
     end
 end
 
+-- Function to get character information including the phone number and job title
+function GetCharacterInfo()
+    local name, serverId, bankBalance, cashBalance, phoneNumber, jobTitle
+    if Config.Framework == "QBCore" then
+        local playerData = exports['qb-core']:GetCoreObject().Functions.GetPlayerData()
+        name = playerData.charinfo.firstname .. " " .. playerData.charinfo.lastname
+        bankBalance = playerData.money["bank"]
+        cashBalance = playerData.money["cash"]
+        phoneNumber = playerData.charinfo.phone  -- Adjust this key based on your QBCore version
+        jobTitle = playerData.job.name -- Adjust this key based on your QBCore version
+    elseif Config.Framework == "ESX" then
+        local xPlayer = ESX.GetPlayerData()
+        name = xPlayer.name  -- Adjust this access method based on your ESX version
+        bankBalance = xPlayer.accounts and xPlayer.accounts['bank'] or 0
+        cashBalance = xPlayer.getMoney()  -- Make sure to adapt this function to your ESX version
+        phoneNumber = xPlayer.get('phoneNumber')  -- This key needs to be verified in your ESX version
+        jobTitle = xPlayer.job.label -- Adjust this key based on your ESX version
+    end
+    serverId = GetPlayerServerId(PlayerId())
+    return name, serverId, bankBalance, cashBalance, phoneNumber, jobTitle
+end
+
 -- Main script thread
 CreateThread(function()
     -- Apply pause menu color customizations once at the start
@@ -66,11 +93,24 @@ CreateThread(function()
 
     while true do
         Wait(1)
-        if IsPauseMenuActive() and not filterEnabled then
-            ApplyFilter(10)  -- Apply filter over approximately 1 second
-            filterEnabled = true
-        elseif not IsPauseMenuActive() and filterEnabled then
-            RemoveFilter()  -- Remove filter when pause menu is deactivated
+        if IsPauseMenuActive() then
+            if not filterEnabled then
+                ApplyFilter(10)  -- Apply filter over approximately 1 second
+                filterEnabled = true
+            end
+            local characterName, characterId, bankBalance, cashBalance, phoneNumber, jobTitle = GetCharacterInfo()
+            local characterBalance = "Bank: $" .. bankBalance .. " | Cash: $" .. cashBalance
+            local idAndPhoneNumber = "ID: " .. characterId .. " | Phone: " .. phoneNumber
+            local topRowText = characterName .. " - " .. jobTitle -- Concatenate name and job title
+            
+            SetScriptGfxDrawBehindPausemenu(true)
+            BeginScaleformMovieMethodOnFrontendHeader("SET_HEADING_DETAILS")
+            PushScaleformMovieFunctionParameterString(topRowText)  -- Display name and job title
+            PushScaleformMovieFunctionParameterString(characterBalance)  -- Moved up for display priority
+            PushScaleformMovieFunctionParameterString(idAndPhoneNumber)  -- Moved down below the balance
+            EndScaleformMovieMethod()
+        elseif filterEnabled then
+            RemoveFilter()
             filterEnabled = false
         end
     end
