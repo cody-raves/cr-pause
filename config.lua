@@ -7,8 +7,6 @@ Config.Header = {
     TITLE = "cr-pause"  -- Customize the main title
 }
 
-Config.CharacterInfoColor = {255, 255, 0} -- Customize the display text of character info
-
 -- Configuration for logo display
 Config.DisplayLogo = true  -- Set to false to disable the logo, true to enable it
 
