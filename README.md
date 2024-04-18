@@ -7,17 +7,7 @@
 ###
 
 <div align="center">
-  <img height="200" src="https://i.ibb.co/vcR8v3X/cr-pause1-2.png"  />
-</div>
-
-###
-
-<p align="center">example custom filter</p>
-
-###
-
-<div align="center">
-  <img height="200" src="https://i.ibb.co/qD88rQv/cr-pause1-2-customfilter.png"  />
+  <img height="200" src="https://i.ibb.co/W3c8mrT/cr-pause.png"  />
 </div>
 
 ###
