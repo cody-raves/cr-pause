@@ -20,3 +20,5 @@ Config.RGBA = {
 -- Configuration for using a custom time cycle modifier
 Config.UseCustomFilter = false -- Set to true to use a custom filter, false to use default nightvision
 Config.CustomTimeCycleModifier = "damage" -- list of modifiers here https://wiki.rage.mp/index.php?title=Timecycle_Modifiers
+
+--info: filters on ESX look diffrent than the ones QBCORE uses. for example 'nightvision' is more bright green in ESX and its more dark green in QBCORE
