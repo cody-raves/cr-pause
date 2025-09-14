@@ -12,7 +12,10 @@ client_scripts {
 
 files {
     'html/pausemenu.html',
-    'html/logo.png'         
+    'html/logo.png',
+    'stream/timecycle_cr_pause.xml'
 }
 
-ui_page 'html/pausemenu.html'  
+data_file 'TIMECYCLEMOD_FILE' 'stream/timecycle_cr_pause.xml'
+
+ui_page 'html/pausemenu.html'

@@ -1,0 +1,103 @@
+<timecycle_mods_data version="1.000000">
+
+  <!-- Custom Night Vision Filter -->
+  <modifier name="cr-pause" numMods="79" userFlags="0">
+
+    <!-- === Core Night Vision Colors === -->
+    <nv_colorHighLum_r>0.120 0.000</nv_colorHighLum_r>
+    <nv_colorHighLum_g>0.600 0.000</nv_colorHighLum_g>
+    <nv_colorHighLum_b>0.500 0.000</nv_colorHighLum_b>
+    <nv_colorLowLum_r>0.000 0.000</nv_colorLowLum_r>
+    <nv_colorLowLum_g>0.075 0.000</nv_colorLowLum_g>
+    <nv_colorLowLum_b>0.055 0.000</nv_colorLowLum_b>
+    <nv_colorLum_r>0.000 0.000</nv_colorLum_r>
+    <nv_colorLum_g>0.285 0.000</nv_colorLum_g>
+    <nv_colorLum_b>0.225 0.000</nv_colorLum_b>
+
+    <!-- === Luminance / Curve Controls === -->
+    <nv_scalerLum>1.600 0.000</nv_scalerLum>
+    <nv_offsetLum>0.200 0.000</nv_offsetLum>
+    <nv_offsetLowLum>0.450 0.000</nv_offsetLowLum>
+    <nv_offsetHighLum>0.250 0.000</nv_offsetHighLum>
+    <nv_lowLum>0.300 0.000</nv_lowLum>
+    <nv_highLum>0.200 0.000</nv_highLum>
+    <nv_topLum>0.750 0.000</nv_topLum>
+
+    <!-- === Noise / Sensor Grain === -->
+    <nv_noiseLum>0.010 0.000</nv_noiseLum>
+    <nv_noiseLowLum>0.010 0.000</nv_noiseLowLum>
+    <nv_noiseHighLum>0.055 0.000</nv_noiseHighLum>
+
+    <!-- === Bloom & Light Handling === -->
+    <nv_bloomLum>1.400 0.000</nv_bloomLum>
+    <sprite_brightness>10.000 0.000</sprite_brightness>
+    <nv_light_dir_mult>0.400 0.000</nv_light_dir_mult>
+    <nv_light_amb_down_mult>1.000 0.000</nv_light_amb_down_mult>
+    <nv_light_amb_up_mult>1.000 0.000</nv_light_amb_up_mult>
+    <light_natural_push>2.000 0.000</light_natural_push>
+
+    <!-- === Blur / DOF === -->
+    <dof_far>0.000 0.000</dof_far>
+    <dof_blur_mid>0.000 0.000</dof_blur_mid>
+    <dof_blur_far>0.000 0.000</dof_blur_far>
+    <blur_vignetting_radius>5.000 0.000</blur_vignetting_radius>
+    <blur_vignetting_intensity>0.500 0.000</blur_vignetting_intensity>
+    <environmental_blur_size>4.000 0.000</environmental_blur_size>
+
+    <!-- === PostFX Color Shifts === -->
+    <postfx_correct_col_r>0.000 0.000</postfx_correct_col_r>
+    <postfx_correct_col_g>1.400 0.000</postfx_correct_col_g>
+    <postfx_correct_col_b>1.900 0.000</postfx_correct_col_b>
+    <postfx_correct_cutoff>0.100 0.000</postfx_correct_cutoff>
+    <postfx_shift_col_r>0.100 1.000</postfx_shift_col_r>
+    <postfx_shift_col_g>1.200 1.000</postfx_shift_col_g>
+    <postfx_shift_col_b>0.850 1.000</postfx_shift_col_b>
+    <postfx_shift_cutoff>1.000 0.000</postfx_shift_cutoff>
+    <postfx_desaturation>0.000 0.000</postfx_desaturation>
+
+    <!-- === Bright Pass & Exposure === -->
+    <postfx_bright_pass_thresh>0.000 0.000</postfx_bright_pass_thresh>
+    <postfx_bright_pass_thresh_width>0.200 0.000</postfx_bright_pass_thresh_width>
+    <postfx_tonemap_filmic_override_dark>1.000 0.000</postfx_tonemap_filmic_override_dark>
+    <postfx_tonemap_filmic_exposure_dark>1.000 0.000</postfx_tonemap_filmic_exposure_dark>
+    <postfx_tonemap_filmic_a>1.200 0.000</postfx_tonemap_filmic_a>
+    <postfx_tonemap_filmic_b>1.000 0.000</postfx_tonemap_filmic_b>
+    <postfx_tonemap_filmic_c>0.500 0.000</postfx_tonemap_filmic_c>
+    <postfx_tonemap_filmic_d>0.080 0.000</postfx_tonemap_filmic_d>
+    <postfx_tonemap_filmic_e>0.010 0.000</postfx_tonemap_filmic_e>
+    <postfx_tonemap_filmic_f>0.128 0.000</postfx_tonemap_filmic_f>
+    <postfx_tonemap_filmic_w>500.000 0.000</postfx_tonemap_filmic_w>
+    <postfx_tonemap_filmic_override_bright>1.000 0.000</postfx_tonemap_filmic_override_bright>
+    <postfx_tonemap_filmic_exposure_bright>1.000 0.000</postfx_tonemap_filmic_exposure_bright>
+    <postfx_tonemap_filmic_a_bright>0.500 0.000</postfx_tonemap_filmic_a_bright>
+    <postfx_tonemap_filmic_b_bright>0.500 0.000</postfx_tonemap_filmic_b_bright>
+    <postfx_tonemap_filmic_c_bright>1.000 0.000</postfx_tonemap_filmic_c_bright>
+    <postfx_tonemap_filmic_d_bright>1.000 0.000</postfx_tonemap_filmic_d_bright>
+    <postfx_tonemap_filmic_e_bright>1.800 0.000</postfx_tonemap_filmic_e_bright>
+    <postfx_tonemap_filmic_f_bright>0.500 0.000</postfx_tonemap_filmic_f_bright>
+    <postfx_tonemap_filmic_w_bright>500.000 0.000</postfx_tonemap_filmic_w_bright>
+
+    <!-- === Gradients / Vignetting === -->
+    <postfx_vignetting_intensity>1.000 0.000</postfx_vignetting_intensity>
+    <postfx_vignetting_radius>15.000 0.000</postfx_vignetting_radius>
+    <postfx_vignetting_contrast>0.000 0.000</postfx_vignetting_contrast>
+    <postfx_vignetting_col_r>0.100 0.000</postfx_vignetting_col_r>
+    <postfx_vignetting_col_g>0.150 0.000</postfx_vignetting_col_g>
+    <postfx_vignetting_col_b>0.100 0.000</postfx_vignetting_col_b>
+    <postfx_grad_top_col_r>0.400 0.000</postfx_grad_top_col_r>
+    <postfx_grad_top_col_g>0.500 0.000</postfx_grad_top_col_g>
+    <postfx_grad_top_col_b>0.400 0.000</postfx_grad_top_col_b>
+    <postfx_grad_middle_col_r>1.000 0.000</postfx_grad_middle_col_r>
+    <postfx_grad_middle_col_g>1.000 0.000</postfx_grad_middle_col_g>
+    <postfx_grad_middle_col_b>1.000 0.000</postfx_grad_middle_col_b>
+    <postfx_grad_top_middle_midpoint>0.450 0.000</postfx_grad_top_middle_midpoint>
+    <postfx_grad_middle_bottom_midpoint>0.450 0.000</postfx_grad_middle_bottom_midpoint>
+
+    <!-- === Misc === -->
+    <postfx_scanline_frequency_0>0.000 0.000</postfx_scanline_frequency_0>
+    <chrom_aberration_coeff>0.000 0.000</chrom_aberration_coeff>
+    <Lensflare_visibility>0.000 0.000</Lensflare_visibility>
+    <shadow_distance_mult>2.000 0.000</shadow_distance_mult>
+
+  </modifier>
+</timecycle_mods_data>
