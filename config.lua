@@ -1,24 +1,42 @@
--- Configuration settings
+--========================
+-- cr-pause | config.lua
+--========================
+
 Config = {}
 
-Config.Framework = "QBCore"  -- Options: "QBCore", "ESX"
+-- Framework: "QBCore" or "ESX"
+Config.Framework = "QBCore"
 
+-- Pause header text
 Config.Header = {
-    TITLE = "cr-pause"  -- Customize the main title
+    TITLE = "cr-pause"
 }
 
--- Configuration for logo display
-Config.DisplayLogo = true  -- Set to false to disable the logo, true to enable it
+-- Show logo in your pause NUI
+Config.DisplayLogo = true
 
--- Configuration for colors
+-- HUD colors (NoPixel-style green accents)
 Config.RGBA = {
-    LINE = {RED = 0, GREEN = 249, BLUE = 185, ALPHA = 255},  -- Line color above each option (default nopixel-green)
-    STYLE = {RED = 0, GREEN = 0, BLUE = 0, ALPHA = 180},  -- Background color of each option (default black semi-transparent)
-    WAYPOINT = {RED = 0, GREEN = 249, BLUE = 185, ALPHA = 255}  -- Waypoint color on the map (default nopixel-green)
+    LINE    = { RED = 0,   GREEN = 249, BLUE = 185, ALPHA = 255 }, -- line above each option
+    STYLE   = { RED = 0,   GREEN = 0,   BLUE = 0,   ALPHA = 180 }, -- option background
+    WAYPOINT= { RED = 0,   GREEN = 249, BLUE = 185, ALPHA = 255 }  -- waypoint color
 }
 
--- Configuration for using a custom time cycle modifier
-Config.UseCustomFilter = false -- Set to true to use a custom filter, false to use default nightvision
-Config.CustomTimeCycleModifier = "damage" -- list of modifiers here https://wiki.rage.mp/index.php?title=Timecycle_Modifiers
+-- Night-vision / timecycle filter
+Config.UseCustomFilter         = true                  -- use our streamed modifier
+Config.CustomTimeCycleModifier = "cr-pause"            -- MUST match the <modifier name="cr-pause"> in your XML
+Config.FilterStrength          = 1.0                   -- 0.0–1.0
+Config.FadeMs                  = 650                   -- fade duration (ms)
 
---info: filters on ESX look diffrent than the ones QBCORE uses. for example 'nightvision' is more bright green in ESX and its more dark green in QBCORE
+-- Optional: stack vanilla NV brightness curve under your color grade
+-- (If you prefer only your timecycle look, leave this false)
+Config.StackVanillaNV          = false
+
+-- Optional keybind/command support (only used if you add a manual toggle elsewhere)
+Config.RegisterKeybind         = false                 -- you can set to true if you add a manual NV toggle
+Config.NVCommand               = "nv"
+Config.NVKey                   = "F10"
+
+-- Note:
+-- ESX vs QBCore may look slightly different depending on other visual packs running,
+-- but this config forces your custom 'cr-pause' timecycle during pause, regardless.
