@@ -1,7 +1,7 @@
 <timecycle_mods_data version="1.000000">
 
   <!-- Custom Night Vision Filter -->
-  <modifier name="nightvision" numMods="79" userFlags="0">
+  <modifier name="v_dark" numMods="79" userFlags="0">
 
     <!-- === Core Night Vision Colors === -->
     <nv_colorHighLum_r>0.120 0.000</nv_colorHighLum_r>
