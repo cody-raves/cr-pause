@@ -18,6 +18,21 @@ Config.RGBA = {
 }
 
 -- Configuration for using a custom time cycle modifier
+
+-- Background / screen treatment while pause menu is open
+-- Mode options:
+--   "filter" = apply timecycle/nightvision filter (uses Config.UseCustomFilter + Config.CustomTimeCycleModifier below)
+--   "none"   = no filter and no color overlay
+--   "color"  = draw a fullscreen color overlay behind the pause menu (uses Config.BackgroundColor)
+Config.BackgroundMode = "color"
+
+-- Used only when Config.BackgroundMode = "color"
+-- Tip: keep ALPHA between ~80-200 for a subtle tint
+Config.BackgroundColor = {RED = 50, GREEN = 130, BLUE = 246, ALPHA = 160}
+
+-- Fade speed (higher = slower). 10 matches the old behavior.
+Config.BackgroundFadeSteps = 10
+
 Config.UseCustomFilter = false -- Set to true to use a custom filter, false to use default nightvision
 Config.CustomTimeCycleModifier = "damage" -- list of modifiers here https://wiki.rage.mp/index.php?title=Timecycle_Modifiers
 

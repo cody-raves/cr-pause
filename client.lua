@@ -123,9 +123,23 @@ local function RefreshCached()
     end
 end
 
--- === Filter ===
-local function ApplyFilter(duration)
-    local step = 1.0 / duration
+-- === Background / Filter ===
+local overlayOpacity = 0.0
+
+local function ApplyHudColors()
+    ReplaceHudColourWithRgba(116, Config.RGBA.LINE.RED, Config.RGBA.LINE.GREEN, Config.RGBA.LINE.BLUE, Config.RGBA.LINE.ALPHA)
+    ReplaceHudColourWithRgba(117, Config.RGBA.STYLE.RED, Config.RGBA.STYLE.GREEN, Config.RGBA.STYLE.BLUE, Config.RGBA.STYLE.ALPHA)
+    ReplaceHudColourWithRgba(142, Config.RGBA.WAYPOINT.RED, Config.RGBA.WAYPOINT.GREEN, Config.RGBA.WAYPOINT.BLUE, Config.RGBA.WAYPOINT.ALPHA)
+end
+
+local function ToggleLogo(show)
+    if Config.DisplayLogo then
+        SendNUIMessage({ display = show })
+    end
+end
+
+local function ApplyFilter(steps)
+    local step = 1.0 / steps
     local opacity = 0.0
 
     if Config.UseCustomFilter then
@@ -134,18 +148,12 @@ local function ApplyFilter(duration)
         SetNightvision(true)
     end
 
-    ReplaceHudColourWithRgba(116, Config.RGBA.LINE.RED, Config.RGBA.LINE.GREEN, Config.RGBA.LINE.BLUE, Config.RGBA.LINE.ALPHA)
-    ReplaceHudColourWithRgba(117, Config.RGBA.STYLE.RED, Config.RGBA.STYLE.GREEN, Config.RGBA.STYLE.BLUE, Config.RGBA.STYLE.ALPHA)
-    ReplaceHudColourWithRgba(142, Config.RGBA.WAYPOINT.RED, Config.RGBA.WAYPOINT.GREEN, Config.RGBA.WAYPOINT.BLUE, Config.RGBA.WAYPOINT.ALPHA)
+    ApplyHudColors()
 
     while opacity <= 1.0 do
         SetTimecycleModifierStrength(opacity)
         opacity = opacity + step
         Wait(1)
-    end
-
-    if Config.DisplayLogo then
-        SendNUIMessage({ display = true })
     end
 end
 
@@ -155,10 +163,49 @@ local function RemoveFilter()
     else
         SetNightvision(false)
     end
-    if Config.DisplayLogo then
-        SendNUIMessage({ display = false })
-    end
 end
+
+local function ApplyColorOverlay(steps)
+    ApplyHudColors()
+
+    local step = 1.0 / steps
+    overlayOpacity = 0.0
+
+    while overlayOpacity < 1.0 do
+        overlayOpacity = overlayOpacity + step
+        Wait(1)
+    end
+
+    overlayOpacity = 1.0
+end
+
+local function RemoveColorOverlay(steps)
+    local step = 1.0 / steps
+
+    while overlayOpacity > 0.0 do
+        overlayOpacity = overlayOpacity - step
+        Wait(1)
+    end
+
+    overlayOpacity = 0.0
+end
+
+-- Draw overlay behind the pause menu (only active when BackgroundMode = "color")
+CreateThread(function()
+    while true do
+        if (Config.BackgroundMode == "color") and overlayOpacity > 0.0 and IsPauseMenuActive() then
+            local c = Config.BackgroundColor or { RED = 0, GREEN = 0, BLUE = 0, ALPHA = 160 }
+            SetScriptGfxDrawBehindPausemenu(true)
+            DrawRect(0.5, 0.5, 1.0, 1.0,
+                c.RED or 0,
+                c.GREEN or 0,
+                c.BLUE or 0,
+                math.floor((c.ALPHA or 160) * overlayOpacity)
+            )
+        end
+        Wait(0)
+    end
+end)
 
 -- === ESX/QBCore event hooks to keep data fresh ===
 if Config.Framework == "ESX" then
@@ -210,10 +257,41 @@ CreateThread(function()
         local open = IsPauseMenuActive()
 
         if open and not filterEnabled then
-            ApplyFilter(10)
+            local steps = Config.BackgroundFadeSteps or 10
+            local mode = (Config.BackgroundMode or "filter")
+
+            -- Make sure we start from a clean slate
+            RemoveFilter()
+            overlayOpacity = 0.0
+
+            if mode == "filter" then
+                ApplyFilter(steps)
+            elseif mode == "color" then
+                ApplyColorOverlay(steps)
+            elseif mode == "none" then
+                ApplyHudColors()
+            else
+                -- fallback
+                ApplyFilter(steps)
+            end
+
+            ToggleLogo(true)
             filterEnabled = true
         elseif (not open) and filterEnabled then
-            RemoveFilter()
+            local steps = Config.BackgroundFadeSteps or 10
+            local mode = (Config.BackgroundMode or "filter")
+
+            if mode == "filter" then
+                RemoveFilter()
+            elseif mode == "color" then
+                RemoveColorOverlay(steps)
+                RemoveFilter()
+            else
+                RemoveFilter()
+                overlayOpacity = 0.0
+            end
+
+            ToggleLogo(false)
             filterEnabled = false
         end
 
