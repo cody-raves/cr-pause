@@ -138,6 +138,159 @@ local function ToggleLogo(show)
     end
 end
 
+
+-- === Pause-menu Map Tab Detection ===
+-- Debug notes:
+--  - When enabled, we ONLY print when the pause selection changes (no spam).
+--  - This lets you click tabs and capture the MAP tab ids cleanly.
+local _lastSelMenuId, _lastSelUniqueId = nil, nil
+local _lastDbgAt = 0
+local _lastFallbackMapState = nil
+local _lastPauseState = nil
+
+local function _dbg_once_on_change(menuId, uniqueId, extra)
+    if not Config.DebugPauseSelection then return end
+
+    -- Only print on selection change
+    if menuId == _lastSelMenuId and uniqueId == _lastSelUniqueId then return end
+    _lastSelMenuId, _lastSelUniqueId = menuId, uniqueId
+
+    -- Throttle in case it flaps rapidly
+    local now = GetGameTimer()
+    if now - _lastDbgAt < 150 then return end
+    _lastDbgAt = now
+
+    if extra and extra ~= "" then
+        print(("[cr-pause] Pause selection changed -> menuId=%s uniqueId=%s | %s"):format(
+            tostring(menuId), tostring(uniqueId), tostring(extra)
+        ))
+    else
+        print(("[cr-pause] Pause selection changed -> menuId=%s uniqueId=%s"):format(
+            tostring(menuId), tostring(uniqueId)
+        ))
+    end
+end
+
+local function _dbg_info(msg)
+    if Config.DebugPauseSelection and Config.DebugPauseVerbose then
+        print("[cr-pause] " .. msg)
+    end
+end
+
+local function _dbg_state_once_on_change(state)
+    if not Config.DebugPauseSelection then return end
+    if state == _lastPauseState then return end
+    _lastPauseState = state
+    print(("[cr-pause] Pause state changed -> state=%s"):format(tostring(state)))
+end
+
+local function GetPauseMenuSelectionIds()
+    if not Citizen or not Citizen.InvokeNative then
+        _dbg_info("Citizen.InvokeNative missing")
+        return nil, nil
+    end
+    if not Citizen.PointerValueIntInitialized then
+        _dbg_info("Citizen.PointerValueIntInitialized missing (your artifact may not support out-params in Lua this way)")
+        return nil, nil
+    end
+    if not Citizen.PointerValueInt then
+        _dbg_info("Citizen.PointerValueInt missing")
+        return nil, nil
+    end
+
+    local menuPtr = Citizen.PointerValueIntInitialized(0)
+    local uniquePtr = Citizen.PointerValueIntInitialized(0)
+
+    local ok = pcall(function()
+        Citizen.InvokeNative(0x36C1451A88A09630, menuPtr, uniquePtr) -- _GET_PAUSE_MENU_SELECTION
+    end)
+    if not ok then
+        _dbg_info("_GET_PAUSE_MENU_SELECTION invoke failed")
+        return nil, nil
+    end
+
+    local menuId, uniqueId
+    local ok2 = pcall(function() menuId = Citizen.PointerValueInt(menuPtr) end)
+    local ok3 = pcall(function() uniqueId = Citizen.PointerValueInt(uniquePtr) end)
+    if not ok2 or not ok3 then
+        _dbg_info("PointerValueInt read failed")
+        return nil, nil
+    end
+
+    return menuId, uniqueId
+end
+
+local function GetPauseMenuSelectionIdsAlt()
+    local ok, a, b = pcall(function()
+        return GetPauseMenuSelection()
+    end)
+    if not ok then return nil, nil end
+    if type(a) == "number" and type(b) == "number" then
+        return a, b
+    end
+    return nil, nil
+end
+
+local function GetPauseMenuStateSafe()
+    local ok, state = pcall(function()
+        return GetPauseMenuState()
+    end)
+    if ok then return state end
+    return nil
+end
+
+local function IsPauseMapTabOpen()
+    if not IsPauseMenuActive() then
+        _lastFallbackMapState = nil
+        _lastPauseState = nil
+        return false
+    end
+
+    local state = GetPauseMenuStateSafe()
+    _dbg_state_once_on_change(state)
+    if type(state) == "number" and state == (Config.PauseMapState or 2) then
+        return true
+    end
+
+    local menuId, uniqueId = GetPauseMenuSelectionIds()
+    if type(menuId) ~= "number" or type(uniqueId) ~= "number" then
+        menuId, uniqueId = GetPauseMenuSelectionIdsAlt()
+    end
+    if type(menuId) == "number" and type(uniqueId) == "number" then
+        _dbg_once_on_change(menuId, uniqueId)
+        _lastFallbackMapState = nil
+        return (menuId == (Config.PauseMapMenuId or 0) and uniqueId == (Config.PauseMapUniqueId or 0))
+    end
+
+    _dbg_info("Pause selection ids unavailable; using fallback (if enabled)")
+    if Config.FallbackUseBigmapActive ~= false then
+        local ok4, res = pcall(function() return IsBigmapActive() end)
+        if ok4 then
+            if Config.DebugPauseSelection and _lastFallbackMapState ~= res then
+                print(("[cr-pause] Fallback map state changed -> %s"):format(tostring(res)))
+                _lastFallbackMapState = res
+            end
+            return res
+        end
+        local ok5, res5 = pcall(function() return Citizen.InvokeNative(0xFFF65C63) end) -- IS_BIGMAP_ACTIVE
+        if ok5 then
+            local mapOpen = (res5 == true)
+            if Config.DebugPauseSelection and _lastFallbackMapState ~= mapOpen then
+                print(("[cr-pause] Fallback map state changed -> %s"):format(tostring(mapOpen)))
+                _lastFallbackMapState = mapOpen
+            end
+            return mapOpen
+        end
+    end
+
+    return false
+end
+
+CreateThread(function()
+    ToggleLogo(false)
+end)
+
+
 local function ApplyFilter(steps)
     local step = 1.0 / steps
     local opacity = 0.0
@@ -251,6 +404,7 @@ CreateThread(function()
     RefreshCached()
 
     local lastOpen = false
+local lastLogoState = nil
 
     while true do
         Wait(1)
@@ -275,7 +429,9 @@ CreateThread(function()
                 ApplyFilter(steps)
             end
 
-            ToggleLogo(true)
+            local shouldShowLogo = (not IsPauseMapTabOpen())
+            ToggleLogo(shouldShowLogo)
+            lastLogoState = shouldShowLogo
             filterEnabled = true
         elseif (not open) and filterEnabled then
             local steps = Config.BackgroundFadeSteps or 10
@@ -292,10 +448,18 @@ CreateThread(function()
             end
 
             ToggleLogo(false)
+            lastLogoState = false
             filterEnabled = false
         end
 
         if open then
+            -- Keep logo synced with Map tab state while pause is open
+            local shouldShowLogo = (not IsPauseMapTabOpen())
+            if lastLogoState == nil or shouldShowLogo ~= lastLogoState then
+                ToggleLogo(shouldShowLogo)
+                lastLogoState = shouldShowLogo
+            end
+
             -- opportunistically refresh (handles late-loaded phone/job)
             if not lastOpen then RefreshCached() end
 
